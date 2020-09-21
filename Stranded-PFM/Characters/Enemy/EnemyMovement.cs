@@ -39,7 +39,7 @@ public class EnemyMovement : MonoBehaviour
     EState _currentState;
     public int _currentPathIndex;
     Animator _animator;
-    public NavMeshAgent _agent; //Se ataca desde otros scripts
+    public NavMeshAgent _agent; //Se accede desde otros scripts
     bool _bIsValid;
     RaycastHit[] OutRaycastHit;
     bool _bCanAttack;
@@ -53,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
     public bool _bIsIdling { get; set; }
     public bool bIsVisible { get; set; }
 
-    //Método para ampliar la visión del enemigo y aumentar la dificultad	
+    //Método para ampliar la visión del enemigo y aumentar la dificultad del juego	
     public void SetMinDistanceSight()
     {
         _minDistanceSight *= 1.45f;
@@ -103,14 +103,14 @@ public class EnemyMovement : MonoBehaviour
     void FixedUpdate() 
     {
         
-        //Si está muerto, se para
+        //Si está muerto, el monstruo se para
         if (bIsDead)
         {
             _agent.velocity = Vector3.zero;
             return;
         }
 
-        //Si estoy leyendo un diario o con el juego en pausa, también se para
+        //Si el jugador está leyendo un diario o con el juego en pausa, el monstruo también se para
         if (_isreadingDiary._isReadingDiary)
         {
             _agent.velocity = Vector3.zero;
@@ -280,7 +280,7 @@ public class EnemyMovement : MonoBehaviour
         float distance = Vector3.Distance(_patrolPoints[_currentPathIndex].position, transform.position);
         bool bInThreshold = distance < ThresholdDistance + _agent.radius + _agent.stoppingDistance;
 
-        
+	//Si está en uno de los puntos, se para y realiza una animación de Idle        
         if (bInThreshold)
         {
             if (!_bIsIdling)
